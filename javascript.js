@@ -14,7 +14,7 @@ const splitToSentences = (input) => {
   }
 
   const isShortSentence = (input) => {
-      if (input.length <= 3) {
+      if (input.length <= 2) {
           return true;
       }
       return false;
@@ -22,7 +22,7 @@ const splitToSentences = (input) => {
 
   function handleShortSentence(input) {
     const newArary = [];
-    var element = input.join(' ');
+    var element = input?.join(' ');
     newArary.push(element);
     return newArary;
   }
@@ -123,15 +123,13 @@ const splitToSentences = (input) => {
     var userInputValue = document.getElementById('user-input').value;
     var modifiedInputValue = document.getElementById('modified-input').value;
 
-    
     result(userInputValue, modifiedInputValue);
   }
 
 function highlight(str, set1, set2){
-  const div = document.createElement('div');
-    const span = document.createElement('span');
-    var text = "";
-   for(var i=0; i<str.length; i++){
+  const span = document.createElement('span');
+  var text = "";
+  for(var i=0; i<str.length; i++){
     var red = set1.includes(str[i]);
     var green =set2.includes(str[i]);
     if(red){
@@ -142,6 +140,6 @@ function highlight(str, set1, set2){
        text +=" "+str[i]+" ";
     }
    }
-    span.innerHTML = text;
-    document.getElementById('display').appendChild(div).appendChild(span);
+  span.innerHTML = text;
+  document.getElementById('display').appendChild(span);
 }

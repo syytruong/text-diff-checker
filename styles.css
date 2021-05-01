@@ -109,14 +109,11 @@ label {
     min-height: 200px;
     margin-bottom: 50px;
     border-radius: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
     box-shadow: -9px -6px 13px -5px rgba(0,0,0,0.71);
     -webkit-box-shadow: -9px -6px 13px -5px rgba(0,0,0,0.71);
     -moz-box-shadow: -9px -6px 13px -5px rgba(0,0,0,0.71);
-}
-
-.display > div {
-    width: 95%;
-    margin: 5px auto;
 }
 
 footer {
