@@ -34,12 +34,12 @@ const splitToSentences = (input) => {
         const modifiedWord = modifiedTokens[i];
         const nextIndex = i + 1;
   
-        if (word !== modifiedWord) {
+        if (word.toLowerCase() !== modifiedWord.toLowerCase()) {
           if (word && modifiedWord) {
-              if (userTokens[i] === modifiedTokens[nextIndex]) {
+              if (userTokens[i].toLowerCase() === modifiedTokens[nextIndex].toLowerCase()) {
                   resultWords.push(modifiedWord)
                   userTokens.splice(i, 0, word);
-              } else if (modifiedTokens[i] === userTokens[nextIndex]) {
+              } else if (modifiedTokens[i].toLowerCase() === userTokens[nextIndex].toLowerCase()) {
                   resultWords.push(word)
                   modifiedTokens.splice(i, 0, modifiedWord);
               } else {
@@ -62,8 +62,6 @@ const splitToSentences = (input) => {
 
 
   const comebineArrays = (userTokens, modifiedTokens) => {
-    let resultWords = [];
-
     if (isShortSentence(userTokens) && !isShortSentence(modifiedTokens)) {
         const newUserTokens = handleShortSentence(userTokens);
         return resultWords = compareArrays(newUserTokens, modifiedTokens);
