@@ -1,6 +1,5 @@
 var userInput = document.getElementById('user-input');
 var modifiedInput = document.getElementById('modified-input');
-var submitBtn = document.getElementById('submit-btn');
 
 const splitToSentences = (input) => {
     const re = /\s*(?:;|$)\s*/
@@ -20,7 +19,7 @@ const splitToSentences = (input) => {
       return false;
   }
 
-  function handleShortSentence(isShort, input) {
+  const handleShortSentence = (isShort, input) => {
     if (isShort) {
       const newArary = [];
       var element = input?.join(' ');
@@ -70,7 +69,7 @@ const splitToSentences = (input) => {
     return resultWords = compareArrays(sortedUserTokens, sortedModifiedTokens);
   }
 
-  function result(userInput, modifieldInput) {
+  const result = (userInput, modifieldInput) => {
     const userSentences = userInput.replace(/\.\s+/g,'.|').replace(/\?\s/g,'?|').replace(/\!\s/g,'!|').split("|");
     const modifiedSentences = modifieldInput.replace(/\.\s+/g,'.|').replace(/\?\s/g,'?|').replace(/\!\s/g,'!|').split("|");
 
@@ -104,20 +103,20 @@ const splitToSentences = (input) => {
     result(userInputValue, modifiedInputValue);
   }
 
-function highlight(str, set1, set2){
-  const span = document.createElement('span');
-  var text = "";
-  for(var i=0; i<str.length; i++){
-    var red = set1.includes(str[i]);
-    var green =set2.includes(str[i]);
-    if(red){
-      text +=" <span class='red'>"+str[i]+"</span> ";
-    } else if (green) {
-        text +=" <span class='green'>"+str[i]+"</span> ";
-    } else {
-       text +=" "+str[i]+" ";
+  function highlight(finalArry, userInputDiffs, modifiedInputDiffs){
+    const span = document.createElement('span');
+    var text = "";
+    for(var i=0; i<finalArry.length; i++){
+      var isUserInputDiff = userInputDiffs.includes(finalArry[i]);
+      var isModifiedInputDiff =modifiedInputDiffs.includes(finalArry[i]);
+      if(isUserInputDiff){
+        text +=" <span class='red'>"+finalArry[i]+"</span> ";
+      } else if (isModifiedInputDiff) {
+          text +=" <span class='green'>"+finalArry[i]+"</span> ";
+      } else {
+        text +=" "+finalArry[i]+" ";
+      }
     }
-   }
-  span.innerHTML = text;
-  document.getElementById('display').appendChild(span);
-}
+    span.innerHTML = text;
+    document.getElementById('display').appendChild(span);
+  }
