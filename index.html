@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="styles.css">
+    </header>
+    <body>
+        <div class="container">
+            <div class="text-area">
+                <div class="text-arera-left">
+                    <label for="user-input">Enter Your Text:</label>
+                    <textarea class="user-input" id="user-input"></textarea>
+                </div>
+                    
+                <div class="text-arera-right">
+                    <label for="modified-input">Enter Modified Text:</label>
+                    <textarea class="modified-input" id="modified-input"></textarea>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button class="submit-btn" id="submit-btn" onclick="submit()">
+                    <span class="front">Find Diff</span>
+                </button>
+            </div>
+        </div>
+        <div class="display" id="display">
+
+        </div>
+        <script type="text/javascript" src="javascript.js"></script>
+    </body>
+</html>
