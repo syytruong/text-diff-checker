@@ -117,7 +117,7 @@ const splitToSentences = (input) => {
   }
 
   function submit() {
-    while (document.getElementById('display').childNodes.length > 1) {
+    while (document.getElementById('display').childNodes.length > 0) {
         document.getElementById('display').removeChild(document.getElementById('display').lastChild);
     }
     var userInputValue = document.getElementById('user-input').value;
