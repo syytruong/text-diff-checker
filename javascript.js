@@ -54,7 +54,7 @@ const splitToSentences = (input) => {
             }
           }
         } else {
-          resultWords.push(word);
+          resultWords.push(modifiedWord);
         }
       }
       return resultWords;
