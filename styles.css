@@ -116,6 +116,10 @@ label {
     -moz-box-shadow: -9px -6px 13px -5px rgba(0,0,0,0.71);
 }
 
+.display > * {
+    font-weight: 600;
+}
+
 footer {
     font-size: 12px;
     text-align: center;
