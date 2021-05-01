@@ -34,12 +34,12 @@ const splitToSentences = (input) => {
         const modifiedWord = modifiedTokens[i];
         const nextIndex = i + 1;
   
-        if (word.toLowerCase() !== modifiedWord.toLowerCase()) {
+        if (word?.toLowerCase() !== modifiedWord?.toLowerCase()) {
           if (word && modifiedWord) {
-              if (userTokens[i].toLowerCase() === modifiedTokens[nextIndex].toLowerCase()) {
+              if (userTokens[i]?.toLowerCase() === modifiedTokens[nextIndex]?.toLowerCase()) {
                   resultWords.push(modifiedWord)
                   userTokens.splice(i, 0, word);
-              } else if (modifiedTokens[i].toLowerCase() === userTokens[nextIndex].toLowerCase()) {
+              } else if (modifiedTokens[i]?.toLowerCase() === userTokens[nextIndex]?.toLowerCase()) {
                   resultWords.push(word)
                   modifiedTokens.splice(i, 0, modifiedWord);
               } else {
