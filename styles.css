@@ -126,10 +126,11 @@ footer {
     padding-bottom: 10px;
 }
 
-.red {
+.user-diff {
     color: red;
+    text-decoration: black line-through;
 }
 
-.green {
+.modified-diff {
     color: green;
 }

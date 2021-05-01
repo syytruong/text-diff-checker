@@ -110,9 +110,9 @@ const splitToSentences = (input) => {
       var isUserInputDiff = userInputDiffs.includes(finalArry[i]);
       var isModifiedInputDiff =modifiedInputDiffs.includes(finalArry[i]);
       if(isUserInputDiff){
-        text +=" <span class='red'>"+finalArry[i]+"</span> ";
+        text +=" <span class='user-diff'>"+finalArry[i]+"</span> ";
       } else if (isModifiedInputDiff) {
-          text +=" <span class='green'>"+finalArry[i]+"</span> ";
+          text +=" <span class='modified-diff'>"+finalArry[i]+"</span> ";
       } else {
         text +=" "+finalArry[i]+" ";
       }
