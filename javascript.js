@@ -20,11 +20,14 @@ const splitToSentences = (input) => {
       return false;
   }
 
-  function handleShortSentence(input) {
-    const newArary = [];
-    var element = input?.join(' ');
-    newArary.push(element);
-    return newArary;
+  function handleShortSentence(isShort, input) {
+    if (isShort) {
+      const newArary = [];
+      var element = input?.join(' ');
+      newArary.push(element);
+      return newArary;
+    }
+   return input;
   }
 
   const compareArrays = (userTokens, modifiedTokens) => {
@@ -62,19 +65,9 @@ const splitToSentences = (input) => {
 
 
   const comebineArrays = (userTokens, modifiedTokens) => {
-    if (isShortSentence(userTokens) && !isShortSentence(modifiedTokens)) {
-        const newUserTokens = handleShortSentence(userTokens);
-        return resultWords = compareArrays(newUserTokens, modifiedTokens);
-    } else if (!isShortSentence(userTokens) && isShortSentence(modifiedTokens)) {
-        const newModifiedTokens = handleShortSentence(modifiedTokens);
-        return resultWords = compareArrays(userTokens, newModifiedTokens);
-    } else if (isShortSentence(userTokens) && isShortSentence(modifiedTokens)) {
-        const newUserTokens = handleShortSentence(userTokens);
-        const newModifiedTokens = handleShortSentence(modifiedTokens);
-        return resultWords = compareArrays(newUserTokens, newModifiedTokens);
-    }
-
-    return resultWords = compareArrays(userTokens, modifiedTokens);
+    const sortedUserTokens = handleShortSentence(isShortSentence(userTokens),userTokens);
+    const sortedModifiedTokens = handleShortSentence(isShortSentence(modifiedTokens),modifiedTokens);
+    return resultWords = compareArrays(sortedUserTokens, sortedModifiedTokens);
   }
 
   function result(userInput, modifieldInput) {
@@ -88,27 +81,12 @@ const splitToSentences = (input) => {
       const userTokens = userSentence ? splitToWords(userSentence) : '';
       const modifiedTokens = modifiedSentence ? splitToWords(modifiedSentence) : '';
 
-      let userDiffSet = [];
-      let modifiedDiffSet = [];
+      const sortedUserTokens = handleShortSentence(isShortSentence(userTokens),userTokens);
+      const sortedModifiedTokens = handleShortSentence(isShortSentence(modifiedTokens),modifiedTokens);
 
-      if (isShortSentence(userTokens) && !isShortSentence(modifiedTokens)) {
-        const newUserTokens = handleShortSentence(userTokens);
-        modifiedDiffSet = modifiedTokens.filter(i => !newUserTokens.includes(i));
-        userDiffSet = newUserTokens.filter(i => !modifiedTokens.includes(i));
-    } else if (!isShortSentence(userTokens) && isShortSentence(modifiedTokens)) {
-        const newModifiedTokens = handleShortSentence(modifiedTokens);
-        modifiedDiffSet = newModifiedTokens.filter(i => !userTokens.includes(i));
-        userDiffSet = userTokens.filter(i => !newModifiedTokens.includes(i));
-    } else if (isShortSentence(userTokens) && isShortSentence(modifiedTokens)) {
-        const newUserTokens = handleShortSentence(userTokens);
-        const newModifiedTokens = handleShortSentence(modifiedTokens);
-        modifiedDiffSet = newModifiedTokens.filter(i => !newUserTokens.includes(i));
-        userDiffSet = newUserTokens.filter(i => !newModifiedTokens.includes(i));
-    } else {
-        modifiedDiffSet = modifiedTokens.filter(i => !userTokens.includes(i));
-        userDiffSet = userTokens.filter(i => !modifiedTokens.includes(i));
+      let userDiffSet = sortedUserTokens.filter(i => !sortedModifiedTokens.includes(i));
+      let modifiedDiffSet = sortedModifiedTokens.filter(i => !sortedUserTokens.includes(i));
 
-    }
       let resultWords = [];
       resultWords = comebineArrays(userTokens, modifiedTokens);
 
