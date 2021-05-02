@@ -29,44 +29,57 @@ const splitToSentences = (input) => {
    return input;
   }
 
-  const compareArrays = (userTokens, modifiedTokens) => {
-      let resultWords = [];
-        for (let i = 0; i < userTokens?.length || i < modifiedTokens?.length; i++) {
-        const word = userTokens[i];
-        const modifiedWord = modifiedTokens[i];
-        const nextIndex = i + 1;
+  const switchPosition = (array, currPosition) => {
+    const nextIndex = currPosition + 1;
+    const nextValue = array[nextIndex];
   
-        if (word?.toLowerCase() !== modifiedWord?.toLowerCase()) {
-          if (word && modifiedWord) {
-              if (userTokens[i]?.toLowerCase() === modifiedTokens[nextIndex]?.toLowerCase()) {
-                  resultWords.push(modifiedWord)
-                  userTokens.splice(i, 0, word);
-              } else if (modifiedTokens[i]?.toLowerCase() === userTokens[nextIndex]?.toLowerCase()) {
-                  resultWords.push(word)
-                  modifiedTokens.splice(i, 0, modifiedWord);
-              } else {
-                  resultWords.push(word);
-                  resultWords.push(modifiedWord);
-              }
-          } else {
-            if (!word && modifiedWord) {
-              resultWords.push(modifiedWord);
-            } else if (word && !modifiedWord) {
-              resultWords.push(word);
-            }
-          }
-        } else {
-          resultWords.push(modifiedWord);
-        }
-      }
-      return resultWords;
+    array.splice(nextIndex, 1, array[currPosition]);
+    array.splice(currPosition, 1, nextValue);
   }
 
-
-  const comebineArrays = (userTokens, modifiedTokens) => {
-    const sortedUserTokens = handleShortSentence(isShortSentence(userTokens),userTokens);
-    const sortedModifiedTokens = handleShortSentence(isShortSentence(modifiedTokens),modifiedTokens);
-    return resultWords = compareArrays(sortedUserTokens, sortedModifiedTokens);
+  const handleStrings = (array1, array2) => {
+    let length = (array1.length > array2.length) ? array1.length : array2.length;
+    for (let i = 0; i < length; i++) {
+      const next = i + 1;
+      if (array1[i] === array2[i]) {
+        highlightOnDiffIndex(array2[i], 'none');
+      } else {
+        if (array1[i] && array2[i]) {
+          if (array1[i] === array2[next]) {
+            if (array1[next] !== array2[next]) {
+              if (array1[next] === array2[i]) {
+                highlightOnDiffIndex(array2[i], 'green');
+                switchPosition(array1, i);
+              } else {
+                highlightOnDiffIndex(array2[i], 'green');
+                array1.splice(i, 0, '');
+              }
+            } else {
+              highlightOnDiffIndex(array1[i], 'red');
+              highlightOnDiffIndex(array2[i], 'green');
+            }
+          } else if (array2[i] === array1[next]) {
+            if (array1[next] !== array2[next]) {
+              highlightOnDiffIndex(array1[i], 'red');
+              array2.splice(i, 0, '');
+            } else {
+              highlightOnDiffIndex(array1[i], 'red');
+              highlightOnDiffIndex(array2[i], 'green');
+            }
+          } else {
+            highlightOnDiffIndex(array1[i], 'red');
+            highlightOnDiffIndex(array2[i], 'green');
+          }
+        } else {
+          if (!array1[i] && array2[i]) {
+            highlightOnDiffIndex(array2[i], 'green');
+          } else if (array1[i] && !array2[i]) {
+            highlightOnDiffIndex(array1[i], 'red');
+          }
+        }
+      }
+      length = (array1.length > array2.length) ? array1.length : array2.length;
+    }
   }
 
   const result = (userInput, modifieldInput) => {
@@ -83,13 +96,7 @@ const splitToSentences = (input) => {
       const sortedUserTokens = handleShortSentence(isShortSentence(userTokens),userTokens);
       const sortedModifiedTokens = handleShortSentence(isShortSentence(modifiedTokens),modifiedTokens);
 
-      let userDiffSet = sortedUserTokens.filter(i => !sortedModifiedTokens.includes(i));
-      let modifiedDiffSet = sortedModifiedTokens.filter(i => !sortedUserTokens.includes(i));
-
-      let resultWords = [];
-      resultWords = comebineArrays(userTokens, modifiedTokens);
-
-      highlight(resultWords, userDiffSet, modifiedDiffSet);
+      handleStrings(sortedUserTokens, sortedModifiedTokens);
     }
   }
 
@@ -97,25 +104,20 @@ const splitToSentences = (input) => {
     while (document.getElementById('display').childNodes.length > 0) {
         document.getElementById('display').removeChild(document.getElementById('display').lastChild);
     }
-    var userInputValue = document.getElementById('user-input').value;
-    var modifiedInputValue = document.getElementById('modified-input').value;
+    const userInputValue = document.getElementById('user-input').value;
+    const modifiedInputValue = document.getElementById('modified-input').value;
 
     result(userInputValue, modifiedInputValue);
   }
 
-  function highlight(finalArry, userInputDiffs, modifiedInputDiffs){
+  function highlightOnDiffIndex(string, color) {
     const span = document.createElement('span');
     var text = "";
-    for(var i=0; i<finalArry.length; i++){
-      var isUserInputDiff = userInputDiffs.includes(finalArry[i]);
-      var isModifiedInputDiff =modifiedInputDiffs.includes(finalArry[i]);
-      if(isUserInputDiff){
-        text +=" <span class='user-diff'>"+finalArry[i]+"</span> ";
-      } else if (isModifiedInputDiff) {
-          text +=" <span class='modified-diff'>"+finalArry[i]+"</span> ";
-      } else {
-        text +=" "+finalArry[i]+" ";
-      }
+   
+    if (color === 'none') {
+      text +=" "+string+" ";
+    } else {
+      text +=` <span class='${color}'> `+string+"</span> ";
     }
     span.innerHTML = text;
     document.getElementById('display').appendChild(span);
